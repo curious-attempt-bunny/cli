@@ -195,7 +195,7 @@
     "ini": "^2.0.0",
     "mock-fs": "^5.1.2",
     "nock": "^13.2.4",
-    "p-timeout": "^4.0.0",
+    "p-timeout": "^6.0.0",
     "rewiremock": "^3.14.3",
     "serialize-javascript": "^6.0.0",
     "sinon": "^14.0.0",
