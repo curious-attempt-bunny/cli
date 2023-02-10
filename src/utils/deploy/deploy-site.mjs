@@ -1,7 +1,7 @@
 import { rm } from 'fs/promises'
 
 import cleanDeep from 'clean-deep'
-import tempy from 'tempy'
+import { temporaryDirectory } from 'tempy'
 
 import { deployFileNormalizer, getDistPathIfExists, isEdgeFunctionFile } from '../../lib/edge-functions/deploy.mjs'
 import { warn } from '../command-helpers.mjs'
@@ -45,7 +45,7 @@ export const deploySite = async (
       /* default to noop */
     },
     syncFileLimit = DEFAULT_SYNC_LIMIT,
-    tmpDir = tempy.directory(),
+    tmpDir = temporaryDirectory(),
     rootDir,
   } = {},
 ) => {
@@ -56,7 +56,7 @@ export const deploySite = async (
   })
 
   const edgeFunctionsDistPath = await getDistPathIfExists({ rootDir })
-  const [{ files, filesShaMap }, { fnShaMap, functionSchedules, functions, functionsWithNativeModules }] =
+  const [{ files, filesShaMap }, { fnConfig, fnShaMap, functionSchedules, functions, functionsWithNativeModules }] =
     await Promise.all([
       hashFiles({
         assetType,
@@ -125,6 +125,7 @@ For more information, visit https://ntl.fyi/cli-native-modules.`)
       files,
       functions,
       function_schedules: functionSchedules,
+      functions_config: fnConfig,
       async: Object.keys(files).length > syncFileLimit,
       branch,
       draft,
