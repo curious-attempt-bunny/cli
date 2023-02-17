@@ -142,7 +142,7 @@ export async function setupFixtureTests(
       if (options.devServer) devServer = await startDevServer({ cwd: fixture.directory })
 
       await options.setup?.({ devServer, fixture, mockApi })
-    })
+    }, 30_000)
 
     beforeEach<FixtureTestContext>((context) => {
       if (fixture) context.fixture = fixture
@@ -158,6 +158,6 @@ export async function setupFixtureTests(
       if (devServer) await devServer.close()
       if (mockApi) await mockApi.close()
       if (fixture) await fixture.cleanup()
-    })
+    }, 30_000)
   })
 }
